@@ -1,0 +1,15 @@
+.venv/
+__pycache__/
+.pytest_cache/
+.ruff_cache/
+*.pyc
+*.pyo
+*.pyd
+*.log
+*.pt
+*.ckpt
+wandb/
+outputs/
+data/
+tmp/
+data_cache/

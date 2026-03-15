@@ -1,0 +1,49 @@
+seed: 42
+output_dir: /root/qwen35_nano_outputs/train_9b_pokemon_5090_colorfix
+device: cuda
+dtype: bfloat16
+
+model:
+  text_model_name: /root/autodl-tmp/models/Qwen3.5-9B
+  trust_remote_code: true
+  text_max_length: 64
+  image_vocab_size: 16384
+  image_seq_len: 256
+  hidden_size: 1024
+  num_layers: 12
+  num_heads: 16
+  mlp_ratio: 4.0
+  dropout: 0.0
+  gradient_checkpointing: true
+
+data:
+  train_manifest: data/pokemon_blip_tokens.jsonl
+  batch_size: 4
+  num_workers: 6
+  cfg_dropout_prob: 0.0
+  unconditional_text: ""
+
+train:
+  max_steps: 12000
+  lr: 0.00005
+  weight_decay: 0.0
+  grad_accum_steps: 1
+  log_every: 10
+  save_every: 1000
+  max_grad_norm: 1.0
+  resume_from: outputs/train_9b_pokemon_5090_stable/decoder_step_1000.pt
+  loss:
+    use_class_balance: true
+    class_balance_alpha: 0.6
+    class_balance_min_weight: 0.25
+    class_balance_max_weight: 8.0
+    use_color_weights: true
+    color_stats_path: /root/autodl-tmp/qwen3.5-nano/data/taming_f16_16384_color_stats_256.npz
+    color_reward_strength: 1.4
+    blank_penalty_strength: 1.2
+    blank_token_top_k: 64
+    blank_suppression_weight: 0.2
+    focal_gamma: 1.5
+    label_smoothing: 0.02
+    token_kl_weight: 0.02
+    repeat_unlikelihood_weight: 0.1

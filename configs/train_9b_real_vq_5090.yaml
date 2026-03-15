@@ -1,0 +1,33 @@
+seed: 42
+output_dir: outputs/train_9b_real_vq_5090
+device: cuda
+dtype: bfloat16
+
+model:
+  text_model_name: /root/autodl-tmp/models/Qwen3.5-9B
+  trust_remote_code: true
+  text_max_length: 192
+  image_vocab_size: 16384
+  image_seq_len: 256
+  hidden_size: 1024
+  num_layers: 12
+  num_heads: 16
+  mlp_ratio: 4.0
+  dropout: 0.0
+  gradient_checkpointing: true
+
+data:
+  train_manifest: data/laion_aesthetics_tokens.jsonl
+  batch_size: 1
+  num_workers: 2
+  cfg_dropout_prob: 0.1
+  unconditional_text: ""
+
+train:
+  max_steps: 50000
+  lr: 0.0001
+  weight_decay: 0.01
+  grad_accum_steps: 8
+  log_every: 10
+  save_every: 200
+  max_grad_norm: 1.0

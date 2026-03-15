@@ -1,0 +1,33 @@
+seed: 42
+output_dir: outputs/dev_2b
+device: cuda
+dtype: bfloat16
+
+model:
+  text_model_name: /root/autodl-tmp/models/Qwen3.5-2B
+  trust_remote_code: true
+  text_max_length: 256
+  image_vocab_size: 8192
+  image_seq_len: 256
+  hidden_size: 1024
+  num_layers: 12
+  num_heads: 16
+  mlp_ratio: 4.0
+  dropout: 0.0
+  gradient_checkpointing: true
+
+data:
+  train_manifest: data/train.jsonl
+  batch_size: 1
+  num_workers: 0
+  cfg_dropout_prob: 0.1
+  unconditional_text: ""
+
+train:
+  max_steps: 20
+  lr: 0.0001
+  weight_decay: 0.01
+  grad_accum_steps: 4
+  log_every: 1
+  save_every: 20
+  max_grad_norm: 1.0
